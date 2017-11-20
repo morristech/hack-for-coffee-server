@@ -6,7 +6,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder
+import org.springframework.stereotype.Component
 
 
 @EnableWebSecurity
@@ -35,11 +36,11 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
 
     @Autowired
     @Throws(Exception::class)
-    fun configureGlobal(auth: AuthenticationManagerBuilder) {
+    fun configureGlobal(auth: AuthenticationManagerBuilder, properties: ScrpytProperty) {
         auth
                 .jdbcAuthentication()
                 .withDefaultSchema()
-                .passwordEncoder(BCryptPasswordEncoder(100))
+                .passwordEncoder(SCryptPasswordEncoder())
                 .withUser("viewer").password("").roles(Roles.CHALLENGE_VIEWER)
     }
 }

@@ -1,0 +1,8 @@
+hack-for-coffee:
+  authentication:
+    scrypt:
+      cpu-cost: 16384
+      memory-cost: 8
+      parallelization: 1
+      key-length: 32
+      salt-length: 128
