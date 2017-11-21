@@ -6,5 +6,5 @@ import java.util.*
 
 class ChallengeController(private val challengeRepository: ChallengeRepository) {
 
-    fun getCurrentChallenge(): Optional<Challenge> = challengeRepository.findFirstCurrentChallenge()
+    fun getCurrentChallenge(): Optional<Challenge> = challengeRepository.findCurrentChallenge()
 }

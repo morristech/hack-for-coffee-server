@@ -2,5 +2,7 @@ package ch.unstable.hackforcoffee.di
 
 import dagger.Module
 
-@Module
-class ServerModule
+@Module(includes = arrayOf(JpaModule::class))
+class ServerModule {
+
+}

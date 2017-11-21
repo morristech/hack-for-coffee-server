@@ -7,4 +7,5 @@ import javax.persistence.Id
 data class Challenge(@field:Id val id: Long,
                      @field:Column(columnDefinition = "TEXT") val instructions: String,
                      val solution: String,
-                     val solved: Boolean)
+                     val solved: Boolean = false,
+                     val active: Boolean = false)

@@ -9,10 +9,14 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import javax.inject.Inject
+import javax.inject.Singleton
+import javax.persistence.EntityManagerFactory
 
-class ServerApp @Inject constructor() {
+@Singleton
+class ServerApp @Inject constructor(private val entityManagerFactory: EntityManagerFactory) {
 
     fun run() {
+        System.out.println("EntityManagerFactory: " + entityManagerFactory)
         val server = embeddedServer(Netty, 8080) {
             routing {
                 get("/") {
