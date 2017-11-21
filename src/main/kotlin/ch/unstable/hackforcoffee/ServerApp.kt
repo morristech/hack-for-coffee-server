@@ -1,30 +1,37 @@
 package ch.unstable.hackforcoffee
 
+import ch.unstable.hackforcoffee.controller.ChallengeController
 import ch.unstable.hackforcoffee.di.DaggerHackForCoffeeServer
-import io.ktor.application.call
-import io.ktor.http.ContentType
-import io.ktor.response.respondText
-import io.ktor.routing.get
+import ch.unstable.hackforcoffee.json.ChallengeDeserializer
+import ch.unstable.hackforcoffee.model.Challenge
+import io.ktor.application.install
+import io.ktor.features.ContentNegotiation
+import io.ktor.gson.gson
+import io.ktor.routing.route
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import java.text.DateFormat
 import javax.inject.Inject
 import javax.inject.Singleton
-import javax.persistence.EntityManagerFactory
 
 @Singleton
-class ServerApp @Inject constructor(private val entityManagerFactory: EntityManagerFactory) {
+class ServerApp @Inject constructor(private val challengeController: ChallengeController) {
 
     fun run() {
-        System.out.println("EntityManagerFactory: " + entityManagerFactory)
-        val server = embeddedServer(Netty, 8080) {
-            routing {
-                get("/") {
-                    call.respondText("Hello, world!", ContentType.Text.Html)
+        embeddedServer(Netty, 8080) {
+            install(ContentNegotiation) {
+                gson {
+                    setDateFormat(DateFormat.LONG)
+                    setPrettyPrinting()
+                    registerTypeAdapter(Challenge::class.java, ChallengeDeserializer())
                 }
             }
-        }
-        server.start(wait = true)
+
+            routing {
+                route("/challenge", build = challengeController.buildRoute)
+            }
+        }.start(wait = true)
     }
 }
 

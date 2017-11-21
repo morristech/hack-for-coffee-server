@@ -4,7 +4,13 @@ import ch.unstable.hackforcoffee.model.Challenge
 import java.util.*
 
 interface ChallengeRepository {
-    fun findCurrentChallenge(): Optional<Challenge>
+    fun findCurrentChallenge(): Challenge?
 
-    fun markChallengeAsDone(challenge: Challenge)
+    fun activateNextChallenge(): Challenge?
+
+    fun markActiveChallengeAsDone()
+
+    fun createChallenge(challenge: Challenge)
+
+    fun updateChallenge(challenge: Challenge)
 }
